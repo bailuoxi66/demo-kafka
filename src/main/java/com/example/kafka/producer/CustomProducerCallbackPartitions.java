@@ -30,8 +30,8 @@ public class CustomProducerCallbackPartitions {
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
 
         // 2. 发送数据
-        for (int i = 0; i < 50; i++) {
-            kafkaProducer.send(new ProducerRecord<>("first", "luoyu" + i), new Callback() {
+        for (int i = 0; i < 5; i++) {
+            kafkaProducer.send(new ProducerRecord<>("first", 0, "", "luoyu" + i), new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
                     if (exception == null){
