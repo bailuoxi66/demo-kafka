@@ -10,7 +10,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 
 public class CustomProducerCallback {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         // 0 配置
         Properties properties = new Properties();
@@ -27,7 +27,7 @@ public class CustomProducerCallback {
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
 
         // 2. 发送数据
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 500; i++) {
             kafkaProducer.send(new ProducerRecord<>("first", "luoyu" + i), new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
@@ -36,6 +36,9 @@ public class CustomProducerCallback {
                     }
                 }
             });
+
+            // 添加延迟的目的是为了让这500条发送到不同的分区去
+            Thread.sleep(1);
         }
 
         // 3. 关闭资源
